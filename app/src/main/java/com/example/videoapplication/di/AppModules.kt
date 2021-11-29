@@ -1,11 +1,13 @@
 package com.example.videoapplication.di
 
 import com.example.videoapplication.BuildConfig
+import com.example.videoapplication.network.ApiService
+import com.example.videoapplication.network.TrustAllVerifier
 import com.example.videoapplication.repository.MainRepository
 import com.example.videoapplication.ui.main.PageViewModel
+import com.example.videoapplication.ui.model.SharedViewModel
 import com.example.videoapplication.util.AppExecutors
 import com.google.gson.Gson
-import kz.laccent.network.ApiService
 import kz.laccent.network.UrlProvider
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -31,6 +33,7 @@ val networkModule = module {
             .connectTimeout(20, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
             .readTimeout(60, TimeUnit.SECONDS)
+            .hostnameVerifier(TrustAllVerifier())
         clientBuilder.build()
     }
     single {
@@ -45,7 +48,8 @@ val networkModule = module {
 
 val mainModule = module {
     single { MainRepository(get()) }
-    viewModel { PageViewModel(get()) }
+    viewModel { PageViewModel(get(), get()) }
+    viewModel { SharedViewModel(get()) }
 }
 
 

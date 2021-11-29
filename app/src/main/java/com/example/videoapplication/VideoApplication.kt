@@ -8,6 +8,7 @@ import kz.laccent.util.debug
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 
 
 class VideoApplication : Application() {
@@ -19,7 +20,7 @@ class VideoApplication : Application() {
         startKoin {
             androidContext(this@VideoApplication)
             debug {
-                androidLogger()
+                androidLogger(Level.ERROR)
             }
             modules(listOf(appModule, mainModule, networkModule))
         }
